@@ -11,6 +11,7 @@ cargo-fuzz = true
 libfuzzer-sys = "0.4"
 
 [dependencies.rustls-pki-types]
+version = "1.14.0"
 path = ".."
 features = ["std"]
 

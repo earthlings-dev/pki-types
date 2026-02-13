@@ -30,7 +30,7 @@ pub(crate) fn decode_public<'a>(input: &[u8], output: &'a mut [u8]) -> Result<&'
 /// Provide an upper limit on how much space could be required
 /// to decode a base64 encoding of len `base64_len`.
 pub(crate) const fn decoded_length(base64_len: usize) -> usize {
-    ((base64_len + 3) / 4) * 3
+    base64_len.div_ceil(4) * 3
 }
 
 fn decode<'a>(

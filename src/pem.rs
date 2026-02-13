@@ -303,30 +303,30 @@ fn read(
         return Ok(ControlFlow::Continue(()));
     }
 
-    if let Some(label) = section.as_ref() {
-        if label.is_end(line) {
-            let kind = match label {
-                SectionLabel::Known(kind) => *kind,
-                // unhandled section: have caller try again
-                SectionLabel::Unknown(_) => {
-                    *section = None;
-                    b64buf.clear();
-                    return Ok(ControlFlow::Continue(()));
-                }
-            };
-
-            let mut der = vec![0u8; base64::decoded_length(b64buf.len())];
-            let der_len = match kind.secret() {
-                true => base64::decode_secret(b64buf, &mut der),
-                false => base64::decode_public(b64buf, &mut der),
+    if let Some(label) = section.as_ref()
+        && label.is_end(line)
+    {
+        let kind = match label {
+            SectionLabel::Known(kind) => *kind,
+            // unhandled section: have caller try again
+            SectionLabel::Unknown(_) => {
+                *section = None;
+                b64buf.clear();
+                return Ok(ControlFlow::Continue(()));
             }
-            .map_err(|err| Error::Base64Decode(format!("{err:?}")))?
-            .len();
+        };
 
-            der.truncate(der_len);
-
-            return Ok(ControlFlow::Break(Some((kind, der))));
+        let mut der = vec![0u8; base64::decoded_length(b64buf.len())];
+        let der_len = match kind.secret() {
+            true => base64::decode_secret(b64buf, &mut der),
+            false => base64::decode_public(b64buf, &mut der),
         }
+        .map_err(|err| Error::Base64Decode(format!("{err:?}")))?
+        .len();
+
+        der.truncate(der_len);
+
+        return Ok(ControlFlow::Break(Some((kind, der))));
     }
 
     if section.is_some() {

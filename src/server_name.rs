@@ -643,10 +643,10 @@ mod parser {
                     result = result.checked_mul(radix)?;
                     result = result.checked_add(digit)?;
                     digit_count += 1;
-                    if let Some(max_digits) = max_digits {
-                        if digit_count > max_digits {
-                            return None;
-                        }
+                    if let Some(max_digits) = max_digits
+                        && digit_count > max_digits
+                    {
+                        return None;
                     }
                 }
 

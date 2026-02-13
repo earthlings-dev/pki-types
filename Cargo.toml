@@ -1,8 +1,8 @@
 [package]
 name = "rustls-pki-types"
 version = "1.14.0"
-edition = "2021"
-rust-version = "1.60"
+edition = "2024"
+rust-version = "1.93"
 license = "MIT OR Apache-2.0"
 description = "Shared types for the rustls PKI ecosystem"
 documentation = "https://docs.rs/rustls-pki-types"
@@ -21,7 +21,7 @@ web = ["web-time"]
 zeroize = { version = "1", optional = true }
 
 [target.'cfg(all(target_os = "linux", target_arch = "x86_64"))'.dev-dependencies]
-crabgrind = "=0.1.9" # compatible with valgrind package on GHA ubuntu-latest
+crabgrind = "=0.2.4" # compatible with valgrind package on GHA ubuntu-latest
 
 [target.'cfg(all(target_family = "wasm", target_os = "unknown"))'.dependencies]
 web-time = { version = "1", optional = true }

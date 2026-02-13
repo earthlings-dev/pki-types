@@ -349,6 +349,6 @@ struct ErrorReader;
 
 impl Read for ErrorReader {
     fn read(&mut self, _buf: &mut [u8]) -> Result<usize, io::Error> {
-        Err(io::Error::new(io::ErrorKind::Other, "read error"))
+        Err(io::Error::other("read error"))
     }
 }
